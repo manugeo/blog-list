@@ -1,0 +1,19 @@
+{
+  "name": "blog-list",
+  "version": "1.0.0",
+  "description": "A blog list application, that allows users to save information about interesting blogs they have stumbled across on the internet. For each listed blog we will save the author, title, url, and amount of upvotes from users of the application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manugeo/blog-list.git"
+  },
+  "author": "Manu Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manugeo/blog-list/issues"
+  },
+  "homepage": "https://github.com/manugeo/blog-list#readme"
+}
