@@ -7,18 +7,23 @@ const helper = require('./test_helper');
 const api = supertest(app);
 
 beforeEach(async () => {
-  console.log('Clearing db!');
   await Blog.deleteMany({});
 
   for (const blog of helper.initialBlogs) {
     const blogObject = new Blog(blog);
     await blogObject.save();
   }
-  console.log('Added new blogs!');
 });
-test('blogs are returned as JSON', async () => {
-  console.log('getting from db!');
-  await api.get('/api/blogs').expect(200).expect('Content-Type', /application\/json/);
+
+describe('blog api tests', () => {
+  test('blogs are returned as JSON', async () => {
+    await api.get('/api/blogs').expect(200).expect('Content-Type', /application\/json/);
+  });
+  
+  test("blog's unique identifier is named as 'id'", async () => {
+    const response = await api.get('/api/blogs');
+    expect(response.body[0].id).toBeDefined();
+  })
 });
 
 afterAll(() => mongoose.connection.close());
