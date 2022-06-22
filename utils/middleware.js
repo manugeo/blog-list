@@ -8,10 +8,12 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+// Note: should be called only after calling all route handling middlewares.
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 }
 
+// See: https://expressjs.com/en/guide/using-middleware.html#middleware.error-handling
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message)
 

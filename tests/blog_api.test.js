@@ -53,7 +53,7 @@ describe('when there is initially one user in db', () => {
     const newUser = { userName: 'root', name: 'Super User', password: 'password' };
     const result = await api.post('/api/users').send(newUser).expect(400).expect('Content-Type', /application\/json/);
 
-    expect(result.body.error).toContain('username must be unique');
+    expect(result.body.error).toContain("Username 'root' is already taken.");
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toEqual(initialUsers);
