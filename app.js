@@ -8,7 +8,7 @@ const blogsRouter = require('./controllers/blogs');
 const usersRouter = require('./controllers/users');
 const logger = require('./utils/logger');
 const config = require('./utils/config');
-const { requestLogger, unknownEndpoint, errorHandler } = require('./utils/middleware');
+const { requestLogger, tokenExtractor, unknownEndpoint, errorHandler } = require('./utils/middleware');
 
 logger.info('connecting to', config.MONGODB_URI);
 mongoose.connect(config.MONGODB_URI).then(() => {
@@ -20,6 +20,7 @@ mongoose.connect(config.MONGODB_URI).then(() => {
 app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
+app.use(tokenExtractor);
 
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
