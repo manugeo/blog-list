@@ -9,22 +9,17 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  if (!decodedToken?.id) {
-    return response.status(401).json({ error: 'token missing or invalid '});
-  }
-
   const { title, author, likes, url } = request.body || {};
   if (!title) return response.status(400).json({ error: "title is required." });
   if (!url) return response.status(400).json({ error: "url is required." });
 
-  const user = await User.findById(decodedToken.id);
+  const user = request.user;
   const blog = new Blog({
     title,
     author,
     url,
     likes: likes || 0,
-    user: user?._id || null
+    user: user?.id || null
   });
   const savedBlog = await blog.save();
 
@@ -38,7 +33,14 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id);
+  const user = request.user;
+  const blog = await Blog.findById(request.params.id);
+  if (!(blog && blog_id)) return response.status(400).json({ error: "Can't find the blog."});
+
+  const canBeDeleted = (blog.user.toString() === user._id.toString());
+  if (!canBeDeleted) return response.status(401).json({ error: "Permission denied. Can't delete the blog." });
+
+  await blog.remove();
   response.status(204).end();
 });
 
