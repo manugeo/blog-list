@@ -10,7 +10,8 @@ loginRouter.post('/', async (request, response) => {
   if (!user || !passwordCorrect) return response.status(401).json({ error: 'invalid username or password'});
 
   const userForToken = { username: user.username, id: user._id };
-  const token = jwt.sign(userForToken, process.env.SECRET);
+  // Note: https://github.com/auth0/node-jsonwebtoken#usage
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: '24h' });
   response.status(200).json({ token, username: user.username, name: user.name });
 });
 
