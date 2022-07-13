@@ -52,7 +52,9 @@ const errorHandler = (error, request, response, next) => {
     return response.status(401).json({ error: 'invalid token' });
   } else if (error.name === 'TokenExpiredError') {
     return response.status(401).json({ error: 'token expired' });
-  }
+  } else if (error.name === 'MongooseError') {
+    return response.status(500).json({ error: 'Failed to connect to database' });
+  };
 
   next(error)
 }
