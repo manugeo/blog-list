@@ -35,7 +35,7 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   const user = request.user;
   const blog = await Blog.findById(request.params.id);
-  if (!(blog && blog_id)) return response.status(400).json({ error: "Can't find the blog."});
+  if (!(blog && blog._id)) return response.status(400).json({ error: "Can't find the blog."});
 
   const canBeDeleted = (blog.user.toString() === user._id.toString());
   if (!canBeDeleted) return response.status(401).json({ error: "Permission denied. Can't delete the blog." });
