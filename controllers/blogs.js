@@ -10,7 +10,6 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const { title, author, likes, url, description } = request.body || {};
   if (!title) return response.status(400).json({ error: "title is required." });
-  if (!url) return response.status(400).json({ error: "url is required." });
   if (!description) return response.status(400).json({ error: "description is required." });
 
   const user = request.user;
