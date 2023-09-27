@@ -11,7 +11,7 @@ loginRouter.post('/', async (request, response) => {
 
   const userForToken = { username: user.username, id: user._id };
   // Note: https://github.com/auth0/node-jsonwebtoken#usage
-  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: '24h' });
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: '30d' });
   response.status(200).json({ token, username: user.username, name: user.name });
 });
 
